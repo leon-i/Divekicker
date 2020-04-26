@@ -34,11 +34,11 @@ Divekicker is a 2D sidescrolling platformer game. Divekicker finds itself in the
 `enemy.js` handles the logic related to enemy characters.  
   
 ## Wireframe  
-**Components**
-  * `Title` - where the game's title will be shown.  
-  * `Nav Links` - where links to the project repository and my LinkedIn will be shown
-  * `Game Window` - main component, will house the game render
-  * `Controls/Info` - will contain instructions on how to play the game  
+  * **Components**
+    * `Title` - where the game's title will be shown.  
+    * `Nav Links` - where links to the project repository and my LinkedIn will be shown
+    * `Game Window` - main component, will house the game render
+    * `Controls/Info` - will contain instructions on how to play the game  
   
 ![divekicker_wireframe](https://user-images.githubusercontent.com/56734437/80316819-f499ff80-87cd-11ea-92f1-8c638225e754.png)
   
