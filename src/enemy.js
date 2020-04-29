@@ -1,41 +1,65 @@
+const CONSTANTS = {
+    MOVE_SPEED: 2,
+    SPRITE_HEIGHT: 128,
+    SPRITE_WIDTH: 128
+};
+
 class Enemy {
-    constructor(ctx) {
-        this.ctx = ctx;
+    constructor(moveDir, position) {
         this.enemySprite = new Image();
         this.enemySprite.src = './src/assets/divekicker_enemy_128.png';
-        this.x = 0;
-        this.y = 128;
-
-        this.enemySprite.onload = () => this.draw();
+        this.moveDir = moveDir;
+        this.startingPosition = position;
+        this.positiveMove = true;
+        this.x = position.x;
+        this.y = position.y;
+        this.hit = false;
 
         this.draw = this.draw.bind(this);
     }
 
-    randomizeEnemySpawn() {
-        const enemyInfo = [];
-        cloudInfo.push(Math.floor(Math.random() * 800));
-        cloudInfo.push(Math.floor(Math.random() * 550));
-        cloudInfo.push(Math.floor(Math.random() * 75) + 75);
-        cloudInfo.push(Math.floor(Math.random() * 50) + 50);
-        return cloudInfo;
-    }
-
-    drawCloud(spawnInfo) {
-        this.ctx.beginPath();
-        this.ctx.rect(...spawnInfo);
-        this.ctx.fillStyle = "#eaf6f3";
-        this.ctx.fill();
-    }
-
-    drawEnemies() {
-        for (let i = 0; i < 10; i++) {
-            const enemyInfo = this.randomizeCloudSpawn();
-            this.drawCloud(enemyInfo);
+    getBounds() {
+        return {
+            top: this.y,
+            right: this.x + (CONSTANTS.SPRITE_WIDTH / 2),
+            left: this.x,
+            bottom: this.y + (CONSTANTS.SPRITE_HEIGHT / 2)
         }
     }
 
-    draw() {
-        this.ctx.drawImage(this.enemySprite, 0, 0, 128, 128, 200, 200, 128, 128);
+    move() {
+        // if (this.y <= (this.startingPosition.y - CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = false;
+        // if (this.y >= (this.startingPosition.y + CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = true;
+        if (this.moveDir === 'vertical') {
+            if (this.y <= (this.startingPosition.y - CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = false;
+            if (this.y >= (this.startingPosition.y + CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = true;
+
+            const change = this.positiveMove ? CONSTANTS.MOVE_SPEED : -CONSTANTS.MOVE_SPEED;
+            this.y -= change;
+        } else {
+            if (this.x <= (this.startingPosition.x - CONSTANTS.SPRITE_WIDTH)) this.positiveMove = true;
+            if (this.x >= (this.startingPosition.x + CONSTANTS.SPRITE_WIDTH)) this.positiveMove = false;
+
+            const change = this.positiveMove ? CONSTANTS.MOVE_SPEED : -CONSTANTS.MOVE_SPEED;
+            this.x += change;
+        }
+    }
+
+    drawBase(ctx) {
+        ctx.drawImage(this.enemySprite, 0, 0, 128, 128, this.x, this.y, 128, 128);
+    }
+
+    drawHit(ctx) {
+        ctx.drawImage(this.enemySprite, 0, 128, 128, 128, this.x, this.y, 128, 128);
+    }
+
+    draw(ctx) {
+        this.hit ? this.drawHit(ctx) : this.drawBase(ctx);
+    }
+
+    animate(ctx) {
+        this.move();
+        this.draw(ctx);
     }
 }
 

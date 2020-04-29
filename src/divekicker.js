@@ -9,6 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundCtx = background.getContext('2d');
 
     const newGame = new Game(canvas, ctx, backgroundCtx);
-    newGame.start();
+    newGame.animate();
     // newGame.draw();
 })

@@ -1,43 +1,83 @@
 import Player from './player';
 import Background from './background';
-import Enemy from './enemy';
+import Level from './level';
+// import Enemy from './enemy';
 
 class Game {
     constructor(canvas, ctx, backgroundCtx) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.player = new Player(ctx);
-        this.enemy = new Enemy(ctx);
-        this.backgroundCtx = backgroundCtx;
-        this.x = this.canvas.width / 2;
-        this.y = this.canvas.height - 30;
-        this.dx = 2;
-        this.dy = -2;
+        // this.enemy = new Enemy(ctx, 'vertical', { x: 200, y: 200 });
+        this.background = new Background(backgroundCtx, 1.0);
+        this.level = new Level();
+        this.initializeControls();
+
+        this.animate = this.animate.bind(this);
     }
 
-    initializeBackground() {
-        this.background = new Background(this.backgroundCtx, 1.0);
-        this.background.draw()
+    initializeControls() {
+        window.addEventListener('keydown', e => {
+            if (e.defaultPrevented) return;
+
+            switch(e.code) {
+                case 'Space':
+                    this.player.jump();
+                    break;
+                case 'ArrowDown':
+                    this.player.diveKick();
+                    break;
+                case 'ArrowRight':
+                    this.player.moveRight();
+                    break;
+                case 'ArrowLeft':
+                    this.player.moveLeft();
+                    break;
+                case 'KeyQ':
+                    this.player.spin();
+                default:
+                    return;
+            }
+        });
+
+        window.addEventListener('keyup', e => {
+            if (e.defaultPrevented) return;
+
+            switch(e.code) {
+                case 'ArrowRight':
+                    this.player.sideVelocity = 0;
+                    break;
+                case 'ArrowLeft':
+                    this.player.sideVelocity = 0;
+                    break;
+            }
+        })
     }
 
-    initializePlayer() {
-        const playerImg = new Image();
-        playerImg.src = 'src/assets/divekicker_sprites.png';
-        this.player = new Player(this.ctx, playerImg);
-    }
-    
-    draw() {
-        this.initializeBackground();
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // this.x += this.dx;
-        // this.y += this.dy;
-        this.player.draw();
-        this.enemy.draw();
+    gameOver() {
+        return this.level.playerCollision(this.player) || this.player.hitBottom();
     }
 
-    start() {
-        setInterval(this.draw(), 10);
+    restart() {
+        this.player = new Player(this.ctx);
+        this.level = new Level();
     }
+
+    animate() {
+        this.background.animate()
+        this.player.animate(this.ctx);
+        this.level.animate(this.ctx);
+
+        if (this.gameOver()) {
+            this.restart()
+        }
+
+        requestAnimationFrame(this.animate);
+    }
+
+    // play() {
+
+    // }
 }
 
 export default Game;
