@@ -72,6 +72,7 @@ class Player {
         this.spinning = false;
         this.spinDelay = false;
         this.velocity = CONSTANTS.DIVEKICK_SPEED;
+        this.jumping = false;
         this.divekicking = true;
     }
 
@@ -86,7 +87,7 @@ class Player {
         const invincibleTimer = setInterval(() => {
             this.invincible = false;
             clearInterval(invincibleTimer);
-        }, 250);
+        }, 100);
 
         const bounceAnimationTimer = setInterval(() => {
             this.jumping = false;

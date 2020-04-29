@@ -30,19 +30,19 @@ class Enemy {
     move() {
         // if (this.y <= (this.startingPosition.y - CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = false;
         // if (this.y >= (this.startingPosition.y + CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = true;
-        if (this.moveDir === 'vertical') {
-            if (this.y <= (this.startingPosition.y - CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = false;
-            if (this.y >= (this.startingPosition.y + CONSTANTS.SPRITE_HEIGHT)) this.positiveMove = true;
+        // if (this.moveDir === 'vertical') {
+        if (this.y <= (this.startingPosition.y - (CONSTANTS.SPRITE_HEIGHT / 2))) this.positiveMove = false;
+        if (this.y >= (this.startingPosition.y + (CONSTANTS.SPRITE_HEIGHT / 2))) this.positiveMove = true;
 
-            const change = this.positiveMove ? CONSTANTS.MOVE_SPEED : -CONSTANTS.MOVE_SPEED;
-            this.y -= change;
-        } else {
-            if (this.x <= (this.startingPosition.x - CONSTANTS.SPRITE_WIDTH)) this.positiveMove = true;
-            if (this.x >= (this.startingPosition.x + CONSTANTS.SPRITE_WIDTH)) this.positiveMove = false;
+        const change = this.positiveMove ? CONSTANTS.MOVE_SPEED : -CONSTANTS.MOVE_SPEED;
+        this.y -= change;
+        // } else {
+        //     if (this.x <= (this.startingPosition.x - CONSTANTS.SPRITE_WIDTH)) this.positiveMove = true;
+        //     if (this.x >= (this.startingPosition.x + CONSTANTS.SPRITE_WIDTH)) this.positiveMove = false;
 
-            const change = this.positiveMove ? CONSTANTS.MOVE_SPEED : -CONSTANTS.MOVE_SPEED;
-            this.x += change;
-        }
+        //     const change = this.positiveMove ? CONSTANTS.MOVE_SPEED : -CONSTANTS.MOVE_SPEED;
+        //     this.x += change;
+        // }
     }
 
     drawBase(ctx) {
