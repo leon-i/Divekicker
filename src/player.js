@@ -52,6 +52,9 @@ class Player {
 
     jump() {
         if (this.jumpCount) {
+            if (this.spinTimer) clearInterval(this.spinTimer);
+            this.spinning = false;
+            this.spinDelay = false;
             this.divekicking = false;
             this.jumping = true;
             this.velocity = -1 * CONSTANTS.JUMP_SPEED;
@@ -65,6 +68,7 @@ class Player {
     }
 
     diveKick() {
+        if (this.spinTimer) clearInterval(this.spinTimer);
         this.spinning = false;
         this.spinDelay = false;
         this.velocity = CONSTANTS.DIVEKICK_SPEED;
@@ -82,7 +86,7 @@ class Player {
         const invincibleTimer = setInterval(() => {
             this.invincible = false;
             clearInterval(invincibleTimer);
-        }, 200);
+        }, 250);
 
         const bounceAnimationTimer = setInterval(() => {
             this.jumping = false;
@@ -92,20 +96,18 @@ class Player {
 
     spin() {
         if (!this.spinning && !this.spinDelay) {
-            this.invincible = true;
             this.spinning = true;
             this.spinDelay = true;
 
-            const spinTimer = setInterval(() => {
+            this.spinTimer = setInterval(() => {
                 this.spinning = false;
-                this.invincible = false;
-                clearInterval(spinTimer);
+                clearInterval(this.spinTimer);
             }, 800);
 
             const spinDelayTimer = setInterval(() => {
                 this.spinDelay = false;
                 clearInterval(spinDelayTimer);
-            }, 100)
+            }, 100);
         }
     }
 

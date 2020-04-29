@@ -10,5 +10,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const newGame = new Game(canvas, ctx, backgroundCtx);
     newGame.animate();
-    // newGame.draw();
 })

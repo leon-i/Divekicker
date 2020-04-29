@@ -69,6 +69,8 @@ class Level {
         if (player.divekicking) {
             player.bounce();
             enemy.hit = true;
+        } else if(player.spinning) {
+            enemy.hit = true;
         } else if (!player.invincible) {
             return true;
         }

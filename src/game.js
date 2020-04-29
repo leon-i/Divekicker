@@ -13,6 +13,9 @@ class Game {
         this.level = new Level();
         this.initializeControls();
 
+        this.rightPressed = false;
+        this.leftPressed = false;
+
         this.animate = this.animate.bind(this);
     }
 
@@ -28,9 +31,11 @@ class Game {
                     this.player.diveKick();
                     break;
                 case 'ArrowRight':
+                    this.rightPressed = true;
                     this.player.moveRight();
                     break;
                 case 'ArrowLeft':
+                    this.leftPressed = true;
                     this.player.moveLeft();
                     break;
                 case 'KeyQ':
@@ -45,13 +50,15 @@ class Game {
 
             switch(e.code) {
                 case 'ArrowRight':
-                    this.player.sideVelocity = 0;
+                    this.rightPressed = false;
+                    if (!this.leftPressed) this.player.sideVelocity = 0;
                     break;
                 case 'ArrowLeft':
-                    this.player.sideVelocity = 0;
+                    this.leftPressed = false;
+                    if (!this.rightPressed) this.player.sideVelocity = 0;
                     break;
             }
-        })
+        });
     }
 
     gameOver() {
