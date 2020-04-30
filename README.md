@@ -1,7 +1,7 @@
 # Divekicker
 
 ## Background and Overview  
-Divekicker is a 2D sidescrolling platformer game. Divekicker finds itself in the same vein as games such as Google's T-Rex game, but in Divekicker players cannot rely on solid ground beneath their feet. Instead players must permorm divekicks to bounce themselves from enemy to enemy in order to progress.
+Divekicker is a 2D sidescrolling platformer game. Divekicker finds itself in the same vein as games such as Google's T-Rex game, but in Divekicker players cannot rely on solid ground beneath their feet. Instead players must perform divekicks to bounce themselves from enemy to enemy in order to progress. Mechanics inspired by Crunchy Games' action platformer Starbreak.
   
 ## Functionality & MVP  
  * **Basic Game Logic**
