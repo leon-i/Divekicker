@@ -55,4 +55,8 @@ Divekicker is a 2D sidescrolling platformer game. Divekicker finds itself in the
   
 * **Phase 3 - Day 4**
   * Impliment user controls for gameplay
-  * Set up user scores, saving scores to database
+  * Set up user scores, saving scores to database  
+  
+## Credits  
+Music: “Underground Army”, from PlayOnLoop.com
+Licensed under Creative Commons by Attribution 4.0
