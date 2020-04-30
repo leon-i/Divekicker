@@ -29,10 +29,71 @@ class Player {
         this.spinDelay = false;
         this.invincible = false;
         this.jumpCount = 2;
+        this.soundFXEnabled = true;
+        this.initializeSoundFX();
 
         this.playerSprite.onload = () => this.draw(ctx);
 
         this.draw = this.draw.bind(this);
+    }
+
+    initializeSoundFX() {
+        this.spinSound = new Audio('./src/assets/soundFX/spin_sound.wav');
+        this.jumpSound = new Audio('./src/assets/soundFX/jump_sound.mp3');
+        this.divekickSound = new Audio('./src/assets/soundFX/divekick_sound.mp3');
+        
+        if (this.soundFXEnabled) {
+            this.spinSound.volume = 0.4;
+            this.jumpSound.volume = 0.4;
+            this.divekickSound.volume = 0.2;
+        } else {
+            this.spinSound.volume = 0;
+            this.jumpSound.volume = 0;
+            this.divekickSound.volume = 0;
+        }
+
+    }
+
+    stopSoundFX() {
+        if (this.spinSound) {
+            this.stopSpin();
+        }
+    }
+
+    toggleSoundFX() {
+        if (this.soundFXEnabled) {
+            this.soundFXEnabled = false;
+            this.spinSound.volume = 0;
+            this.jumpSound.volume = 0;
+            this.divekickSound.volume = 0;
+        } else {
+            this.soundFXEnabled = true;
+            this.spinSound.volume = 0.4;
+            this.jumpSound.volume = 0.4;
+            this.divekickSound.volume = 0.2;
+        }
+    }
+
+    stopSpin() {
+        if (this.spinTimer) clearInterval(this.spinTimer);
+        this.spinning = false;
+        this.spinDelay = false;
+        this.spinSound.pause();
+        this.spinSound.currentTime = 0;
+    }
+
+    playJumpSound() {
+        this.jumpSound.pause();
+        this.jumpSound.currentTime = 0;
+        this.jumpSound.play();
+    }
+
+    playDivekickSound() {
+        if (!this.divekicking) {
+            this.divekickSound.pause();
+            this.divekickSound.currentTime = 0;
+            this.divekickSound.play();
+        }
     }
 
     getBounds() {
@@ -52,11 +113,10 @@ class Player {
 
     jump() {
         if (this.jumpCount) {
-            if (this.spinTimer) clearInterval(this.spinTimer);
-            this.spinning = false;
-            this.spinDelay = false;
+            this.stopSpin();
             this.divekicking = false;
             this.jumping = true;
+            this.playJumpSound();
             this.velocity = -1 * CONSTANTS.JUMP_SPEED;
             this.jumpCount--;
             const jumpAnimationTimer = setInterval(() => {
@@ -68,9 +128,8 @@ class Player {
     }
 
     diveKick() {
-        if (this.spinTimer) clearInterval(this.spinTimer);
-        this.spinning = false;
-        this.spinDelay = false;
+        this.stopSpin();
+        this.playDivekickSound();
         this.velocity = CONSTANTS.DIVEKICK_SPEED;
         this.jumping = false;
         this.divekicking = true;
@@ -99,9 +158,12 @@ class Player {
         if (!this.spinning && !this.spinDelay) {
             this.spinning = true;
             this.spinDelay = true;
+            this.spinSound.play();
 
             this.spinTimer = setInterval(() => {
                 this.spinning = false;
+                this.spinSound.pause();
+                this.spinSound.currentTime = 0;
                 clearInterval(this.spinTimer);
             }, 800);
 

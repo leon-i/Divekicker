@@ -21,6 +21,29 @@ class Level {
             this.createEnemy(5),
             this.createEnemy(5)
         ];
+
+        this.soundFXEnabled = true;
+        this.initializeSoundFX();
+    }
+
+    initializeSoundFX() {
+        this.spinImpactSound = new Audio('./src/assets/soundFX/spin_impact_3.wav');
+        this.spinImpactSound.volume = this.soundFXEnabled ? 0.35 : 0;
+    }
+
+    toggleSoundFX() {
+        if (this.soundFXEnabled) {
+            this.soundFXEnabled = false;
+            this.spinImpactSound.volume = 0;
+        } else {
+            this.soundFXEnabled = true;
+            this.spinImpactSound.volume = 0.35;
+        }
+    }
+
+    playSpinImpactSound() {
+        this.spinImpactSound.currentTime = 0;
+        this.spinImpactSound.play();
     }
 
     randomizeEnemySpawn(num) {
@@ -88,8 +111,9 @@ class Level {
             player.bounce();
             scoreTracker.enemyKill(enemy.hit);
             enemy.hit = true;
-        } else if(player.spinning) {
+        } else if (player.spinning) {
             scoreTracker.enemyKill(enemy.hit);
+            this.playSpinImpactSound();
             enemy.hit = true;
         } else if (!player.invincible) {
             return true;

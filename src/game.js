@@ -15,6 +15,12 @@ class Game {
         this.level = new Level();
         this.menu = new Menu(this);
         this.scoreTracker = new ScoreTracker(this);
+
+        this.soundFXEnabled = true;
+        this.musicEnabled = true;
+        this.drawToggle = false;
+        this.currentToggle = '';
+
         this.initializeControls();
 
         this.rightPressed = false;
@@ -49,6 +55,12 @@ class Game {
                     case 'KeyQ':
                         this.player.spin();
                         break;
+                    case 'KeyM':
+                        this.toggleMusic();
+                        break;
+                    case 'KeyN':
+                        this.toggleSoundFX();
+                        break;
                     default:
                         return;
                 }
@@ -56,6 +68,12 @@ class Game {
                 switch(e.code) {
                     case 'KeyR':
                         if (this.menu.menu.className !== 'open') this.start();
+                        break;
+                    case 'KeyM':
+                        this.toggleMusic();
+                        break;
+                    case 'KeyN':
+                        this.toggleSoundFX();
                         break;
                     default:
                         return;
@@ -82,6 +100,64 @@ class Game {
 
     initializeGame() {
         this.menu.openMenu('menu');
+        this.gameMusic = new Audio('src/assets/music/POL-underground-army-short-looped.wav');
+        this.gameOverSound = new Audio('src/assets/soundFX/game_loss.mp3');
+
+        this.gameMusic.loop = true;
+        this.gameMusic.volume = this.musicEnabled ? 0.35 : 0;
+        this.gameOverSound.volume = this.soundFXEnabled ? 0.35 : 0;
+    }
+
+    toggleMusic() {
+        this.musicEnabled = this.musicEnabled ? false : true;
+        this.gameMusic.volume = this.musicEnabled ? 0.35 : 0;
+        this.currentToggle = 'music';
+        this.drawToggle = true;
+        if (!this.gameStatus) this.drawSoundToggle('music');
+        if (this.drawToggleTimer) clearInterval(this.drawToggleTimer);
+        this.drawToggleTimer = setInterval(() => {
+            this.drawToggle = false;
+            clearInterval(this.drawToggleTimer);
+        }, 1500);
+    }
+
+    toggleSoundFX() {
+        this.soundFXEnabled = this.soundFXEnabled ? false : true;
+        this.gameOverSound.volume = this.soundFXEnabled ? 0.35 : 0;
+        this.player.toggleSoundFX();
+        this.level.toggleSoundFX();
+        this.currentToggle = 'soundFX';
+        this.drawToggle = true;
+        if (!this.gameStatus) this.drawSoundToggle('soundFX');
+        if (this.drawToggleTimer) clearInterval(this.drawToggleTimer);
+        this.drawToggleTimer = setInterval(() => {
+            this.drawToggle = false;
+            clearInterval(this.drawToggleTimer);
+        }, 1500);
+    }
+
+    drawNotification(message) {
+        if (!this.gameStatus) this.ctx.clearRect(825, 472, 180, 28);
+        this.ctx.font = 'bold 28px sans-serif';
+        this.ctx.lineWidth = 1;
+        this.ctx.fillStyle = '#ffd24c';
+        this.ctx.fillText(message, 825, 495);
+    }
+
+    drawSoundToggle(soundType) {
+        if (soundType === 'soundFX') {
+            if (this.soundFXEnabled && this.drawToggle) {
+                this.drawNotification('SOUND: ON');
+            } else if (!this.soundFXEnabled && this.drawToggle) {
+                this.drawNotification('SOUND: OFF');
+            }
+        } else {
+            if (this.musicEnabled && this.drawToggle) {
+                this.drawNotification('MUSIC: ON');
+            } else if (!this.musicEnabled && this.drawToggle) {
+                this.drawNotification('MUSIC: OFF');
+            }
+        } 
     }
 
     gameOver() {
@@ -91,11 +167,21 @@ class Game {
     reset() {
         if (this.difficultyIncreaseTimer) clearInterval(this.difficultyIncreaseTimer);
         this.gameStatus = false;
+        this.player.stopSoundFX();
+
         this.player = new Player(this.ctx);
         this.level = new Level();
+
+        if (!this.soundFXEnabled) {
+            this.player.toggleSoundFX();
+            this.level.toggleSoundFX();
+        }
+
         this.scoreTracker.resetScore();
         this.scoreTracker = new ScoreTracker(this);
         this.showRestartMessage(this.finalScore);
+        this.gameMusic.pause();
+        this.gameMusic.currentTime = 0;
     }
 
     showRestartMessage(finalScore) {
@@ -114,9 +200,14 @@ class Game {
             this.level.animate(this.ctx);
             this.scoreTracker.draw(this.ctx);
 
+            if (this.drawToggle) {
+                this.drawSoundToggle(this.currentToggle);
+            }
+
             if (this.gameOver()) {
                 this.finalScore = Math.floor(this.scoreTracker.score);
-                this.reset()
+                this.gameOverSound.play();
+                this.reset();
             }
 
             requestAnimationFrame(this.animate);
@@ -127,6 +218,9 @@ class Game {
         this.gameStatus = true;
         this.hideRestartMessage();
         this.scoreTracker.initializeScore();
+        this.gameOverSound.pause();
+        this.gameOverSound.currentTime = 0;
+        this.gameMusic.play();
         this.difficultyIncreaseTimer = setInterval(() => {
             if (this.level.difficulty < 10) this.level.difficulty++;
             this.scoreTracker.scoreMultiplyer += 0.5;

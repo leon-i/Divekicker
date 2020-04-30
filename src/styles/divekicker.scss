@@ -22,7 +22,6 @@ body {
 .game-screen-container {
     height: 500px;
     width: 1000px;
-    margin: 0px 220px;
     border-radius: 2px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 }
@@ -91,6 +90,7 @@ body {
     width: 750px;
     border-radius: 2px;
     margin: 50px auto;
+    padding-bottom: 36px;
     background: #eaf6f3;
 }
 
@@ -105,7 +105,7 @@ body {
     font-size: 16px;
     font-family: 'Montserrat', sans-serif;
     text-transform: lowercase;
-    margin: 8px 0;
+    margin: 7px 0;
     color: #e16666;
 }
 
@@ -145,6 +145,21 @@ body {
     font-family: sans-serif;
     margin-top: 40px;
     color: #ffd24c;
+}
+
+.nav-links {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.nav-link {
+    height: 50px;
+    width: 50px;
+}
+
+.not-first {
+    margin-left: 16px;
 }
 
 .show {

@@ -6,29 +6,55 @@ class Menu {
         this.startButton = document.getElementById('start-btn');
         this.controlsButton = document.getElementById('controls-menu-btn');
         this.closeButton = document.getElementById('close-btn');
+        this.initializeSoundFX();
         this.initializeMenuButtons();
 
         this.openMenu = this.openMenu.bind(this);
         this.closeMenu = this.closeMenu.bind(this);
     }
 
-    openMenu(id) {
-        id === 'menu' ? this.menu.className = 'open' : this.controlsMenu.className = 'open';
-    }
-
-    closeMenu(id) {
-        id === 'menu' ? this.menu.className = 'closed' : this.controlsMenu.className = 'closed';
-    }
-
-    startGame() {
-        this.closeMenu('menu');
-        this.game.start();
+    initializeSoundFX() {
+        this.menuButtonSounds = new Audio('./src/assets/soundFX/menu_button_sounds.mp3');
+        this.menuButtonSounds.volume = 0.4;
     }
 
     initializeMenuButtons() {
         this.startButton.addEventListener('click', this.startGame.bind(this));
         this.controlsButton.addEventListener('click', () => this.openMenu('controls'));
         this.closeButton.addEventListener('click', () => this.closeMenu('controls'))
+    }
+
+    playMenuButtonSound() {
+        this.menuButtonSounds.pause();
+        this.menuButtonSounds.currentTime = 0;
+        this.menuButtonSounds.play();
+    }
+
+    openMenu(id) {
+        if (id === 'menu') {
+            this.menu.className = 'open';
+        } else {
+            this.playMenuButtonSound();
+            this.controlsMenu.className = 'open';
+        }
+    }
+
+    closeMenu(id) {
+        if (id === 'menu') {
+            this.menu.className = 'closed';
+        } else {
+            this.playMenuButtonSound();
+            this.controlsMenu.className = 'closed';
+        }
+    }
+
+    startGame() {
+        this.playMenuButtonSound();
+        const gameStartTimer = setInterval(() => {
+            this.closeMenu('menu');
+            this.game.start();
+            clearInterval(gameStartTimer);
+        }, 500);
     }
 }
 
