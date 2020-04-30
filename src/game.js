@@ -3,13 +3,13 @@ import Background from './background';
 import Level from './level';
 import Menu from './menu';
 import ScoreTracker from './score_tracker';
-// import Enemy from './enemy';
 
 class Game {
     constructor(canvas, ctx, backgroundCtx) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.gameStatus = false;
+        this.gamePaused = false;
         this.player = new Player(ctx);
         this.background = new Background(backgroundCtx, 1.0);
         this.level = new Level();
@@ -108,7 +108,7 @@ class Game {
     }
 
     animate() {
-        if (this.gameStatus) {
+        if (this.gameStatus && !this.gamePaused) {
             this.background.animate()
             this.player.animate(this.ctx);
             this.level.animate(this.ctx);
