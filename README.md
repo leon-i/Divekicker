@@ -60,3 +60,5 @@ Divekicker is a 2D sidescrolling platformer game. Divekicker finds itself in the
 ## Credits  
 Music: “Underground Army”, from PlayOnLoop.com  
 Licensed under Creative Commons by Attribution 4.0
+  
+Sound effects from Zapsplat.com
