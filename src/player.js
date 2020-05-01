@@ -211,9 +211,6 @@ class Player {
         this.updateSpinFrame();
         const currentFrame = SPINFRAMES[this.currentSpinFrame];
         ctx.drawImage(this.spinSprite, 0, currentFrame, 64, 64, this.x, this.y, 64, 64);
-        // ctx.drawImage(this.spinSprite, 0, 64, 64, 64, this.x, this.y, 64, 64);
-        // ctx.drawImage(this.spinSprite, 0, 128, 64, 64, this.x, this.y, 64, 64);
-        // ctx.drawImage(this.spinSprite, 0, 196, 64, 64, this.x, this.y, 64, 64);
     }
 
     draw(ctx) {
