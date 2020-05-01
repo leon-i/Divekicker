@@ -28,22 +28,32 @@ class Level {
 
     initializeSoundFX() {
         this.spinImpactSound = new Audio('./src/assets/soundFX/spin_impact_3.wav');
+        this.divekickImpactSound = new Audio('./src/assets/soundFX/divekick_impact.mp3');
+        this.divekickImpactSound.playbackRate = 2.5;
         this.spinImpactSound.volume = this.soundFXEnabled ? 0.35 : 0;
+        this.divekickImpactSound.volume = this.soundFXEnabled ? 0.25 : 0;
     }
 
     toggleSoundFX() {
         if (this.soundFXEnabled) {
             this.soundFXEnabled = false;
             this.spinImpactSound.volume = 0;
+            this.divekickImpactSound.volume = 0;
         } else {
             this.soundFXEnabled = true;
             this.spinImpactSound.volume = 0.35;
+            this.divekickImpactSound.volume = 0.25;
         }
     }
 
     playSpinImpactSound() {
         this.spinImpactSound.currentTime = 0;
         this.spinImpactSound.play();
+    }
+
+    playDivekickImpactSound() {
+        this.divekickImpactSound.currentTime = 0;
+        this.divekickImpactSound.play();
     }
 
     randomizeEnemySpawn(num) {
@@ -111,6 +121,7 @@ class Level {
             player.bounce();
             scoreTracker.enemyKill(enemy.hit);
             enemy.hit = true;
+            this.playDivekickImpactSound();
         } else if (player.spinning) {
             scoreTracker.enemyKill(enemy.hit);
             this.playSpinImpactSound();
