@@ -58,6 +58,9 @@ Divekicker is a 2D sidescrolling platformer game. Divekicker finds itself in the
   * Set up user scores, saving scores to database  
   
 ## Credits  
+Music: “Air Sharks”, from PlayOnLoop.com  
+Licensed under Creative Commons by Attribution 4.0  
+  
 Music: “Underground Army”, from PlayOnLoop.com  
 Licensed under Creative Commons by Attribution 4.0
   
