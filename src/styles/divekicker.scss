@@ -91,14 +91,14 @@ body {
     border-radius: 2px;
     margin: 50px auto;
     padding-bottom: 36px;
-    background: #eaf6f3;
+    background: #4c4f6a;
 }
 
 .inner-menu h2, h4 {
     font-size: 32px;
     font-family: 'Montserrat', sans-serif;
     margin: 20px 0 10px 0;
-    color: #4c4f6a;
+    color: #ffd24c;
 }
 
 .inner-menu p {
@@ -106,7 +106,12 @@ body {
     font-family: 'Montserrat', sans-serif;
     text-transform: lowercase;
     margin: 7px 0;
+    color: #eaf6f3;
+}
+
+.inner-menu span {
     color: #e16666;
+    text-transform: uppercase;
 }
 
 #close-btn {
@@ -160,6 +165,12 @@ body {
 
 .not-first {
     margin-left: 16px;
+}
+
+.angellist-link {
+    height: 55px;
+    width: 55px;
+    margin-left: 4px;
 }
 
 .show {

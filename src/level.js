@@ -15,10 +15,7 @@ class Level {
         this.enemies = [
             this.createEnemy(3),
             this.createEnemy(3),
-            this.createEnemy(3),
             this.createEnemy(4),
-            this.createEnemy(4),
-            this.createEnemy(5),
             this.createEnemy(5)
         ];
 
