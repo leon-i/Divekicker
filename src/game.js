@@ -67,7 +67,7 @@ class Game {
             } else {
                 switch(e.code) {
                     case 'KeyR':
-                        if (this.menu.menu.className !== 'open') this.start();
+                        if (this.menu.menu.className !== 'open' && this.menu.controlsMenu.className !== 'open') this.start();
                         break;
                     case 'KeyM':
                         this.toggleMusic();

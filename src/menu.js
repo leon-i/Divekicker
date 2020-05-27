@@ -5,6 +5,7 @@ class Menu {
         this.controlsMenu = document.getElementById('controls-menu');
         this.startButton = document.getElementById('start-btn');
         this.controlsButton = document.getElementById('controls-menu-btn');
+        this.controlsButton2 = document.getElementById('controls-menu-btn-2');
         this.closeButton = document.getElementById('close-btn');
         this.initializeSoundFX();
         this.initializeMenuButtons();
@@ -21,6 +22,7 @@ class Menu {
     initializeMenuButtons() {
         this.startButton.addEventListener('click', this.startGame.bind(this));
         this.controlsButton.addEventListener('click', () => this.openMenu('controls'));
+        this.controlsButton2.addEventListener('click', () => this.openMenu('controls'));
         this.closeButton.addEventListener('click', () => this.closeMenu('controls'))
     }
 
